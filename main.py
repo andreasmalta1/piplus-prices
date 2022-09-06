@@ -26,18 +26,15 @@ sh = sa.open('Pi Plus Price Sheet')
 
 whs = sh.worksheet('Sheet1')
 
-url = whs.acell('J2').value
 # val = worksheet.cell(1, 2).value
 # values_list = worksheet.row_values(1)
 
-page = requests.get(url).content
-soup = BeautifulSoup(page, "lxml")
-
-price = get_price(url, soup)
-
-whs.update('I2', price)
+for i in range(2, 27):
+    link = whs.acell(f'J{i}').value
+    if link:
+        page = requests.get(link).content
+        soup = BeautifulSoup(page, "lxml")
+        price = get_price(link, soup)
+        whs.update(f'I{i}', price)
 
 print(price)
-
-# Make it dyanmaic
-
