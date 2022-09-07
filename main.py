@@ -35,6 +35,10 @@ for i in range(2, 27):
         page = requests.get(link).content
         soup = BeautifulSoup(page, "lxml")
         price = get_price(link, soup)
-        whs.update(f'I{i}', price)
+        current_price = whs.acell(f'I{i}').value
+        if current_price != price:
+            print(f'Updated price at cell I{i} from {current_price} to {price}')
+            whs.update(f'I{i}', price)
 
-print(price)
+rows = whs.row_count
+print(rows)
