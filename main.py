@@ -35,7 +35,7 @@ list_prices = []
 
 for link in list_links:
     if not link:
-        list_prices.append('NA')
+        list_prices.append(['NA'])
     else:
         link = link[0]
         page = requests.get(link).content
@@ -43,11 +43,11 @@ for link in list_links:
         price = get_price(link, soup).strip()
         price = price.replace('€', '')
         price = price.replace(' ', '')
-        list_prices.append(price)
+        list_prices.append([price])
+
 # 48 = NA
 # 96 = 1054
-print(list_prices)
-whs.update(range_prices, [list_prices])
+whs.update('I2:I96', list_prices)
 # worksheet.format('A1:B1', {'textFormat': {'bold': True}})
 # worksheet.format("A2:B2", {
 #     "backgroundColor": {
