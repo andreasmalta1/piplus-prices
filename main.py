@@ -33,42 +33,20 @@ range_prices = f'I2:I{rows}'
 list_links = whs.get(range_links)
 list_prices = []
 
-for link in list_links:
-    if not link:
-        list_prices.append(['NA'])
-    else:
-        link = link[0]
-        page = requests.get(link).content
-        soup = BeautifulSoup(page, "lxml")
-        price = get_price(link, soup).strip()
-        price = price.replace('€', '')
-        price = price.replace(' ', '')
-        list_prices.append([price])
+# for link in list_links:
+#     if not link:
+#         list_prices.append(['NA'])
+#     else:
+#         link = link[0]
+#         page = requests.get(link).content
+#         soup = BeautifulSoup(page, "lxml")
+#         price = get_price(link, soup).strip()
+#         price = price.replace('€', '')
+#         price = price.replace(' ', '')
+#         list_prices.append([price])
 
-# 48 = NA
-# 96 = 1054
-whs.update('I2:I96', list_prices)
-# worksheet.format('A1:B1', {'textFormat': {'bold': True}})
-# worksheet.format("A2:B2", {
-#     "backgroundColor": {
-#       "red": 0.0,
-#       "green": 0.0,
-#       "blue": 0.0
-#     },
-#     "horizontalAlignment": "CENTER",
-#     "textFormat": {
-#       "foregroundColor": {
-#         "red": 1.0,
-#         "green": 1.0,
-#         "blue": 1.0
-#       },
-#       "fontSize": 12,
-#       "bold": True
-#     }
-# })
+# whs.update(range_prices, list_prices)
 
-# try manually for 2 rows
-# formatting
-# https://docs.gspread.org/en/latest/user-guide.html
-# https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/cells#cellformat
-# https://github.com/robin900/gspread-formatting
+whs.format("I2:I5", {"numberFormat": {
+  "type": 'Currency'
+}})
