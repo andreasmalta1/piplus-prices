@@ -26,19 +26,21 @@ sh = sa.open('Pi Plus Price Sheet')
 
 whs = sh.worksheet('Sheet1')
 
-# val = worksheet.cell(1, 2).value
-# values_list = worksheet.row_values(1)
+rows = whs.row_count
 
-for i in range(2, 27):
+whs.format("I2:I" + str(rows), {'numberFormat': {'type': 'CURRENCY', 'pattern': '€ #,###'}})
+
+for i in range(2, rows):
     link = whs.acell(f'J{i}').value
     if link:
         page = requests.get(link).content
         soup = BeautifulSoup(page, "lxml")
-        price = get_price(link, soup)
+        price = get_price(link, soup).strip()
+        price = price.replace('€', '')
+        price = price.replace(' ', '')
         current_price = whs.acell(f'I{i}').value
         if current_price != price:
             print(f'Updated price at cell I{i} from {current_price} to {price}')
             whs.update(f'I{i}', price)
 
-rows = whs.row_count
-print(rows)
+whs.format("I2:I" + rows, {'type': 'CURRENCY', 'pattern': '€ #,###'})
