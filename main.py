@@ -33,19 +33,19 @@ range_prices = f'I2:I{rows}'
 list_links = whs.get(range_links)
 list_prices = []
 
-# for link in list_links:
-#     if not link:
-#         list_prices.append(['NA'])
-#     else:
-#         link = link[0]
-#         page = requests.get(link).content
-#         soup = BeautifulSoup(page, "lxml")
-#         price = get_price(link, soup).strip()
-#         price = price.replace('€', '')
-#         price = price.replace(' ', '')
-#         list_prices.append([price])
+for link in list_links:
+    if not link:
+        list_prices.append(['NA'])
+    else:
+        link = link[0]
+        page = requests.get(link).content
+        soup = BeautifulSoup(page, "lxml")
+        price = get_price(link, soup).strip()
+        price = price.replace('€', '')
+        price = price.replace(' ', '')
+        list_prices.append([price])
 
-# whs.update(range_prices, list_prices)
+whs.update(range_prices, list_prices)
 
 whs.format("I2:I5", {"numberFormat": {
   "type": 'Currency'
