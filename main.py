@@ -43,10 +43,13 @@ for link in list_links:
         price = get_price(link, soup).strip()
         price = price.replace('€', '')
         price = price.replace(' ', '')
-        list_prices.append([price])
+        try:
+            list_prices.append([float(price)])
+        except ValueError:
+            list_prices.append([price])
 
 whs.update(range_prices, list_prices)
 
-whs.format("I2:I5", {"numberFormat": {
-  "type": 'Currency'
+whs.format(range_prices, {"numberFormat": {
+  "type": 'Currency',
 }})
